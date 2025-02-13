@@ -2,7 +2,6 @@
 
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\StripePayment;
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\PaypalPayment;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\VakifbankVposPayment;
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\Payment;
 use Emincmg\PaymentProcessorLaravel\Factory\PaymentFactory;
 use App\Models\User;
@@ -29,10 +28,10 @@ class PaymentService
      * Get the payment instance dynamically using the PaymentFactory.
      *
      * @param array $paymentData The raw payment data from the request.
-     * @return StripePayment|PaypalPayment|VakifbankVPosPayment
+     * @return StripePayment|PaypalPayment
      * @throws Exception
      */
-    public function returnPaymentInstance(array $paymentData): StripePayment|PaypalPayment|VakifbankVPosPayment
+    public function returnPaymentInstance(array $paymentData): StripePayment|PaypalPayment
     {
         if (!isset($paymentData['channel'])) {
             throw new Exception('Payment channel is required');
