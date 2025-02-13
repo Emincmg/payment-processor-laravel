@@ -1,100 +1,118 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel\Models;
+
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\DB;
 use Emincmg\PaymentProcessorLaravel\Exceptions\PaymentFailedException;
-use Stripe\PaymentIntent;
-use Stripe\Stripe;
-use Stripe\Customer;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Payer;
+use PayPal\Api\Transaction;
+use PayPal\Api\Amount;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Capture;
+use PayPal\Api\Authorization;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
 
 /**
- * Class StripePayment
+ * Class PaypalPayment
  *
- * Handles Stripe payment processing using Laravel's event system.
+ * Handles PayPal payment processing.
  */
 class PaypalPayment extends Payment
 {
     /**
-     * @var PaymentIntent The Stripe payment intent instance.
+     * @var ApiContext PayPal API context instance.
      */
-    private PaymentIntent $paymentIntent;
+    private ApiContext $apiContext;
 
     /**
-     * @var Customer The Stripe customer instance.
-     */
-    private Customer $customer;
-
-    /**
-     * StripePayment constructor.
+     * PaypalPayment constructor.
      *
-     * Initializes Stripe API with the secret key from config.
+     * Initializes PayPal API credentials.
      */
     public function __construct()
     {
-        Stripe::setApiKey(config('payment.stripe.secret'));
+        $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                config('payment.paypal.client_id'),
+                config('payment.paypal.secret')
+            )
+        );
     }
 
     /**
-     * Processes the payment by creating a payment intent
-     * and triggering the appropriate event.
+     * Create a PayPal payment and return the approval URL.
      *
-     * @return void
+     * @return string The PayPal approval URL.
+     * @throws \Exception
      */
-    public function process(): void
+    public function process(): string
     {
-        Event::dispatch(new PaymentStarted($this));
+        try {
+            $payer = new Payer();
+            $payer->setPaymentMethod("paypal");
 
-        $this->createPaymentIntent();
+            $amount = new Amount();
+            $amount->setTotal($this->amount);
+            $amount->setCurrency($this->currency);
 
-        if ($this->paymentIntent->status !== 'requires_payment_method') {
-            $this->success();
-        } else {
+            $transaction = new Transaction();
+            $transaction->setAmount($amount);
+            $transaction->setDescription("Payment for Order #" . $this->id);
+
+            $redirectUrls = new RedirectUrls();
+            $redirectUrls->setReturnUrl(config('payment.paypal.return_url'))
+                ->setCancelUrl(config('payment.paypal.cancel_url'));
+
+            $payment = new Payment();
+            $payment->setIntent("sale")
+                ->setPayer($payer)
+                ->setTransactions([$transaction])
+                ->setRedirectUrls($redirectUrls);
+
+            $payment->create($this->apiContext);
+
+            return $payment->getApprovalLink(); // Redirect user to this URL
+        } catch (\Exception $e) {
             $this->fail();
+            throw new PaymentFailedException("PayPal Payment Failed: " . $e->getMessage());
         }
     }
 
     /**
-     * Creates a Stripe customer based on user information.
+     * Executes a PayPal payment after user approval.
      *
-     * @return void
-     * @throws \Stripe\Exception\ApiErrorException
+     * @param string $paymentId The PayPal payment ID.
+     * @param string $payerId The PayPal payer ID.
+     * @return bool
+     * @throws \Exception
      */
-    public function createCustomer(): void
+    public function executePayment(string $paymentId, string $payerId): bool
     {
-        $this->customer = Customer::create([
-            'name' => $this->userName,
-            'email' => $this->userEmail,
-            'phone' => $this->userPhone,
-        ]);
-    }
+        try {
+            $payment = Payment::get($paymentId, $this->apiContext);
+            $execution = new PaymentExecution();
+            $execution->setPayerId($payerId);
 
-    /**
-     * Creates a payment intent using the Stripe API.
-     *
-     * @return void
-     * @throws \Stripe\Exception\ApiErrorException
-     */
-    public function createPaymentIntent(): void
-    {
-        $this->paymentIntent = PaymentIntent::create([
-            'customer' => $this->customer->id,
-            'amount' => $this->amount,
-            'currency' => $this->currency,
-            'payment_method' => $this->paymentMethod,
-            'confirmation_method' => $this->confirmationMethod,
-            'confirm' => true,
-            'return_url' => config('payment.stripe.return_url'),
-            'payment_method_options' => [
-                'card' => [
-                    'request_three_d_secure' => 'any',
-                ],
-            ],
-        ]);
+            $result = $payment->execute($execution, $this->apiContext);
 
-        Event::dispatch(new PaymentIntentCreated($this->paymentIntent));
+            if ($result->getState() === "approved") {
+                $this->success();
+                return true;
+            } else {
+                $this->fail();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $this->fail();
+            throw new PaymentFailedException("PayPal Execution Failed: " . $e->getMessage());
+        }
     }
 
     /**
@@ -104,8 +122,7 @@ class PaypalPayment extends Payment
      */
     public function fail(): void
     {
-        $exception = new PaymentFailedException('Error processing payment');
-        Event::dispatch(new PaymentFailed($exception));
+        Event::dispatch(new PaymentFailed($this));
     }
 
     /**
@@ -122,20 +139,10 @@ class PaypalPayment extends Payment
                 $this->status = 'confirmed';
                 $this->save();
             });
-            Log::channel('payment_success')->info('Stripe payment success!');
+            Log::channel('payment_success')->info('PayPal payment success!');
             Event::dispatch(new PaymentSuccess($this));
         } catch (PaymentFailedException $exception) {
             Event::dispatch(new PaymentFailed($exception));
         }
-    }
-
-    /**
-     * Retrieves the Stripe payment intent instance.
-     *
-     * @return PaymentIntent
-     */
-    public function getPaymentIntent(): PaymentIntent
-    {
-        return $this->paymentIntent;
     }
 }
