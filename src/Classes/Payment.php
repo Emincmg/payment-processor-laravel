@@ -33,7 +33,7 @@ abstract class Payment extends Model implements PaymentInterface
         'declined_at' => 'datetime',
     ];
 
-    abstract public function process(): void;
-    abstract public function success(): void;
-    abstract public function fail(): void;
+    abstract public function process();
+    abstract public function fail();
+    abstract public function success();
 }

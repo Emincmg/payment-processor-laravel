@@ -4,9 +4,9 @@ namespace Emincmg\PaymentProcessorLaravel\Interfaces;
 
 interface PaymentInterface
 {
-    function process();
+    public function process();
 
-    function fail();
+    public function fail();
 
-    function success();
+    public function success();
 }
