@@ -1,31 +1,42 @@
 {
-    "name": "emincmg/payment-processor-laravel",
-    "description": "A payment processor package that helps with common payment systems such as Stripe, VPOS etc.",
-    "type": "package",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Emincmg\\PaymentProcessorLaravel\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Emincmg",
-            "email": "emin-comoglu@hotmail.com"
-        }
-    ],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Emincmg\\PaymentProcessorLaravel\\Providers\\PaymentProcessorServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "stable",
-    "require": {
-        "php": "^8.2",
-        "laravel/framework": "^11.0",
-        "stripe/stripe-php": "^14.8",
-        "paypal/rest-api-sdk-php": "^1.14"
+  "name": "emincmg/payment-processor-laravel",
+  "description": "A payment processor package that helps with common payment systems such as Stripe, VPOS etc.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Emincmg\\PaymentProcessorLaravel\\": "src/"
     }
+  },
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Emin Çomoğlu",
+      "email": "emin-comoglu@hotmail.com",
+      "homepage": "https://emincomoglu.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Emincmg\\PaymentProcessorLaravel\\Providers\\PaymentProcessorServiceProvider"
+      ]
+    },
+    "aliases": {
+      "PaymentService": "Emincmg\\PaymentProcessorLaravel\\Facades\\PaymentService"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.2",
+    "laravel/framework": "^11.0",
+    "stripe/stripe-php": "^14.8",
+    "paypal/rest-api-sdk-php": "^1.14"
+  },
+  "keywords": [
+    "laravel",
+    "payment",
+    "stripe",
+    "paypal"
+  ]
 }
