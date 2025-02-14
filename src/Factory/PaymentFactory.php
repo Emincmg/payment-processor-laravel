@@ -12,15 +12,14 @@ class PaymentFactory
      *
      * @param string $gateway The payment gateway identifier (e.g., 'stripe', 'paypal' etc.).
      * @param array $data The required parameters for the payment instance.
-     * @return StripePayment|PaypalPayment
+     * @return Payment
      * @throws Exception
      */
-    public static function create(string $gateway, array $data): StripePayment|PaypalPayment
+    public static function create(string $gateway, array $data): Payment
     {
         return match ($gateway) {
             'stripe' => new StripePayment(...$data),
             'paypal' => new PaypalPayment(...$data),
-            'vpos' => new VakifbankVPosPayment(...$data),
             default => throw new Exception("Invalid payment gateway: $gateway"),
         };
     }
