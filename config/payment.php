@@ -46,67 +46,83 @@ return [
     ],
 
     /*
-   |--------------------------------------------------------------------------
-   | PayPal API Credentials
-   |--------------------------------------------------------------------------
-   |
-   | The credentials used to authenticate with PayPal's REST API.
-   | You can retrieve these from your PayPal Developer Dashboard.
-   |
-   | Environment Variables:
-   | PAYPAL_CLIENT_ID, PAYPAL_SECRET
-   |
-   */
-
-    'client_id' => env('PAYPAL_CLIENT_ID'),
-
-    'secret' => env('PAYPAL_SECRET'),
-
-    /*
     |--------------------------------------------------------------------------
-    | PayPal Mode (Sandbox or Live)
+    | PayPal Config
     |--------------------------------------------------------------------------
     |
-    | The mode in which PayPal API will operate:
-    | - "sandbox" for testing transactions.
-    | - "live" for real payments.
-    |
-    | Environment Variable: PAYPAL_MODE
+    | Here you may define all the credentials required to integrate with the
+    | PayPal SDK. These values are pulled from your environment file to keep
+    | sensitive information secure.
     |
     */
 
-    'mode' => env('PAYPAL_MODE', 'sandbox'), // Default to sandbox mode.
+    'paypal' => [
 
-    /*
-    |--------------------------------------------------------------------------
-    | PayPal Redirect URLs
-    |--------------------------------------------------------------------------
-    |
-    | These URLs are used to redirect users after they complete or cancel
-    | the payment process. Ensure these match your application routes.
-    |
-    | Environment Variables:
-    | PAYPAL_RETURN_URL, PAYPAL_CANCEL_URL
-    |
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | PayPal API Credentials
+        |--------------------------------------------------------------------------
+        |
+        | The credentials used to authenticate with PayPal's REST API.
+        | You can retrieve these from your PayPal Developer Dashboard.
+        |
+        | Environment Variables:
+        | PAYPAL_CLIENT_ID, PAYPAL_SECRET
+        |
+        */
 
-    'return_url' => env('PAYPAL_RETURN_URL', 'https://your-app.com/payment/success'),
+        'client_id' => env('PAYPAL_CLIENT_ID'),
 
-    'cancel_url' => env('PAYPAL_CANCEL_URL', 'https://your-app.com/payment/cancel'),
+        'secret' => env('PAYPAL_SECRET'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Define whether to enable PayPal API logging and specify log level.
-    | Options: 'DEBUG', 'INFO', 'WARN', 'ERROR'
-    |
-    | Environment Variable: PAYPAL_LOG_LEVEL
-    |
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | PayPal Mode (Sandbox or Live)
+        |--------------------------------------------------------------------------
+        |
+        | The mode in which PayPal API will operate:
+        | - "sandbox" for testing transactions.
+        | - "live" for real payments.
+        |
+        | Environment Variable: PAYPAL_MODE
+        |
+        */
 
-    'log_enabled' => env('PAYPAL_LOG_ENABLED', true),
+        'mode' => env('PAYPAL_MODE', 'sandbox'), // Default to sandbox mode.
 
-    'log_level' => env('PAYPAL_LOG_LEVEL', 'ERROR'),
+        /*
+        |--------------------------------------------------------------------------
+        | PayPal Redirect URLs
+        |--------------------------------------------------------------------------
+        |
+        | These URLs are used to redirect users after they complete or cancel
+        | the payment process. Ensure these match your application routes.
+        |
+        | Environment Variables:
+        | PAYPAL_RETURN_URL, PAYPAL_CANCEL_URL
+        |
+        */
+
+        'return_url' => env('PAYPAL_RETURN_URL', 'https://your-app.com/payment/success'),
+
+        'cancel_url' => env('PAYPAL_CANCEL_URL', 'https://your-app.com/payment/cancel'),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logging Configuration
+        |--------------------------------------------------------------------------
+        |
+        | Define whether to enable PayPal API logging and specify log level.
+        | Options: 'DEBUG', 'INFO', 'WARN', 'ERROR'
+        |
+        | Environment Variable: PAYPAL_LOG_LEVEL
+        |
+        */
+
+        'log_enabled' => env('PAYPAL_LOG_ENABLED', true),
+
+        'log_level' => env('PAYPAL_LOG_LEVEL', 'ERROR'),
+    ],
+
+
 ];
