@@ -4,6 +4,7 @@ namespace Emincmg\PaymentProcessorLaravel\Models;
 
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
+use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ use PayPal\Auth\OAuthTokenCredential;
  *
  * Handles PayPal payment processing.
  */
-class PaypalPayment extends Payment
+class PaypalPayment extends Payment implements PaymentInterface
 {
     /**
      * @var ApiContext PayPal API context instance.

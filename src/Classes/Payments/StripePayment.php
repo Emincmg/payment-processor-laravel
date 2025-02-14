@@ -2,6 +2,7 @@
 
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
+use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ use Stripe\Customer;
  *
  * Handles Stripe payment processing using Laravel's event system.
  */
-class StripePayment extends Payment
+class StripePayment extends Payment implements PaymentInterface
 {
     /**
      * @var PaymentIntent The Stripe payment intent instance.

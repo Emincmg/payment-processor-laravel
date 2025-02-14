@@ -1,9 +1,8 @@
 <?php
 
-use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Payment extends Model implements PaymentInterface
+abstract class Payment extends Model
 {
     protected $table = 'payments';
 
@@ -32,8 +31,4 @@ abstract class Payment extends Model implements PaymentInterface
         'confirmed_at' => 'datetime',
         'declined_at' => 'datetime',
     ];
-
-    abstract public function process();
-    abstract public function fail();
-    abstract public function success();
 }
