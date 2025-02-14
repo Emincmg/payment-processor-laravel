@@ -31,10 +31,10 @@ class PaymentService
      * Get the payment instance dynamically using the PaymentFactory.
      *
      * @param array $paymentData The raw payment data from the request.
-     * @return StripePayment|PaypalPayment
+     * @return Payment
      * @throws Exception
      */
-    public function returnPaymentInstance(array $paymentData): StripePayment|PaypalPayment
+    public function returnPaymentInstance(array $paymentData): Payment
     {
         if (!isset($paymentData['channel'])) {
             throw new Exception('Payment channel is required');
