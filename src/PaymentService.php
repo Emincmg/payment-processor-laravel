@@ -1,10 +1,13 @@
 <?php
 
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\StripePayment;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\PaypalPayment;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\Payment;
-use Emincmg\PaymentProcessorLaravel\Factory\PaymentFactory;
+namespace Emincmg\PaymentProcessorLaravel;
+
 use App\Models\User;
+use DB;
+use Emincmg\PaymentProcessorLaravel\Classes\Payments\Payment;
+use Emincmg\PaymentProcessorLaravel\Classes\Payments\PaypalPayment;
+use Emincmg\PaymentProcessorLaravel\Classes\Payments\StripePayment;
+use Emincmg\PaymentProcessorLaravel\Factory\PaymentFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;

@@ -89,7 +89,7 @@ $paymentInstance->process();
 For PayPal payments:
 
 ```php
-$paymentData['channel'] = 'paypal';
+use Emincmg\PaymentProcessorLaravel\PaymentService;$paymentData['channel'] = 'paypal';
 $paymentInstance = PaymentService::returnPaymentInstance($paymentData);
 $approvalUrl = $paymentInstance->process();
 
@@ -99,7 +99,7 @@ $approvalUrl = $paymentInstance->process();
 After the user approves the PayPal payment:
 
 ```php
-$paymentId = $request->query('paymentId');
+use Emincmg\PaymentProcessorLaravel\PaymentService;$paymentId = $request->query('paymentId');
 $payerId = $request->query('PayerID');
 
 $paymentData['channel'] = 'paypal';
