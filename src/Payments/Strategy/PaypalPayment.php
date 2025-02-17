@@ -55,6 +55,7 @@ class PaypalPayment extends Payment implements PaymentInterface
      */
     public function process(): string
     {
+        Event::dispatch(new PaymentStarted($this));
         try {
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
