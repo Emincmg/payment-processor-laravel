@@ -2,6 +2,8 @@
 
 namespace Emincmg\PaymentProcessorLaravel\Requests;
 
+use Emincmg\PaymentProcessorLaravel\Payments\DTO\PaymentRequestDTO;
+
 class PaymentCreateRequest
 {
     /**
@@ -9,7 +11,7 @@ class PaymentCreateRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // make your authorization here
         return true;
@@ -20,7 +22,7 @@ class PaymentCreateRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'amount' => 'required|numeric|min:1',
@@ -37,7 +39,7 @@ class PaymentCreateRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'amount.required' => 'The payment amount is required.',
@@ -54,5 +56,26 @@ class PaymentCreateRequest
             'cvv.required_if' => 'The CVV code is required for credit card payments.',
             'cvv.digits' => 'The CVV code must be exactly 3 digits.',
         ];
+    }
+
+    /**
+     * Create a DTO instance from validated input.
+     *
+     * @return PaymentRequestDTO
+     */
+    public function toDTO(): PaymentRequestDTO
+    {
+        $validated = $this->validated();
+        return new PaymentRequestDTO(
+            $validated['payment_method'],
+            $validated['amount'],
+            $validated['currency'],
+            'Payment request initiated',
+            optional($this->user())->name,
+            optional($this->user())->email,
+            optional($this->user())->phone,
+            $validated['payment_method'],
+            null
+        );
     }
 }

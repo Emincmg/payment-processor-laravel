@@ -7,6 +7,7 @@ use DB;
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\Payment;
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\PaypalPayment;
 use Emincmg\PaymentProcessorLaravel\Classes\Payments\StripePayment;
+use Emincmg\PaymentProcessorLaravel\Payments\DTO\PaymentRequestDTO;
 use Emincmg\PaymentProcessorLaravel\Payments\Factory\PaymentFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,30 +18,30 @@ class PaymentService
     /**
      * Process a payment request.
      *
-     * @param array $paymentData The payment data received from the controller.
+     * @param PaymentRequestDTO $paymentDTO The payment data received from the controller.
      * @return void Process the payment algorithm.
      * @throws \Exception
      */
-    public function processPayment(array $paymentData): void
+    public function processPayment(PaymentRequestDTO $paymentDTO): void
     {
-        $paymentInstance = $this->returnPaymentInstance($paymentData);
+        $paymentInstance = $this->returnPaymentInstance($paymentDTO);
         $paymentInstance->process();
     }
 
     /**
      * Get the payment instance dynamically using the PaymentFactory.
      *
-     * @param array $paymentData The raw payment data from the request.
+     * @param PaymentRequestDTO $paymentDTO The raw payment data from the request.
      * @return Payment
      * @throws Exception
      */
-    public function returnPaymentInstance(array $paymentData): Payment
+    public function returnPaymentInstance(PaymentRequestDTO $paymentDTO): Payment
     {
-        if (!isset($paymentData['channel'])) {
+        if (!isset($paymentDTO->channel)) {
             throw new Exception('Payment channel is required');
         }
 
-        return PaymentFactory::create($paymentData['channel'], $paymentData);
+        return PaymentFactory::create($paymentDTO->channel, (array) $paymentDTO);
     }
 
     /**
