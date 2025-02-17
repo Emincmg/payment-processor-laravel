@@ -1,7 +1,7 @@
 <?php
 
+use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Services\PaymentService;
-use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -13,9 +13,19 @@ class HandlePaymentError implements ShouldQueue
     {
     }
 
-    public function handle(PaymentSuccess $event)
+    public function handle(PaymentFailed $event)
     {
         $payment = $event->payment;
+
+        Log::channel('payment_errors')->error('Stripe payment failed', [
+            'payment_id' => $payment->id ?? 'N/A',
+            'amount' => $payment->amount ?? 'N/A',
+            'currency' => $payment->currency ?? 'N/A',
+            'payment_method' => $payment->payment_method ?? 'N/A',
+            'status' => $payment->status ?? 'N/A',
+            'error_message' => $event->exception->getMessage() ?? 'Unknown error',
+            'timestamp' => now()->toDateTimeString(),
+        ]);
         $payment->fail();
     }
 }
