@@ -5,8 +5,11 @@
 ## Features
 
 - **Modular Payment Integrations**: Easily integrate multiple payment gateways.
+- **Supports PayPal & Stripe Out of the Box**: PayPal & Stripe implemetion comes already set up.
+- **Uses DTO's**: Uses Data Transfer Objects for structural design purposes.
+- **Strategy Pattern**: Implements the Strategy Pattern for flexible payment processing.
 - **Event-Driven Architecture**: Leverage Laravel's event system for payment notifications.
-- **Extensible Design**: Simplify the addition of new payment providers.
+- **Extensible Design**: Simplify the addition of new payment providers thanks to Strategy Design Pattern.
 
 ## Installation
 
@@ -66,48 +69,39 @@ PAYPAL_LOG_LEVEL=ERROR
 
 ## Usage
 
-To process a payment using the facade:
+Simple controller example for easy integration:
 
 ```php
+use Emincmg\PaymentProcessorLaravel\Requests\PaymentCreateRequest;
 use Emincmg\PaymentProcessorLaravel\Facades\PaymentService;
+use Illuminate\Http\JsonResponse;
 
-$paymentData = [
-    'channel' => 'stripe',
-    'amount' => 1000,
-    'currency' => 'USD',
-    'userName' => 'John Doe',
-    'userEmail' => 'john.doe@example.com',
-    'userPhone' => '1234567890',
-    'paymentMethod' => 'pm_card_visa',
-    'confirmationMethod' => 'automatic',
-];
+class PaymentController extends Controller
+{
 
-$paymentInstance = PaymentService::returnPaymentInstance($paymentData);
-$paymentInstance->process();
-```
+    public function initiatePayment(PaymentCreateRequest $request): JsonResponse
+    {
+        // create dto instance from formrequests.
+        $paymentDTO = $request->toDTO();
+        
+        // pass the created instance to the service and it will return the response dto
+        $responseDTO = PaymentService::processPayment($paymentDTO);
 
-For PayPal payments:
+        return response()->json([
+            'status' => $responseDTO->status,
+            'transaction_id' => $responseDTO->transactionId,
+            'approval_url' => $responseDTO->approvalUrl,
+            'message' => $responseDTO->message
+        ]);
+    }
+}
 
-```php
-use Emincmg\PaymentProcessorLaravel\PaymentService;$paymentData['channel'] = 'paypal';
-$paymentInstance = PaymentService::returnPaymentInstance($paymentData);
-$approvalUrl = $paymentInstance->process();
-
-// Redirect the user to $approvalUrl
-```
-
-After the user approves the PayPal payment:
-
-```php
-use Emincmg\PaymentProcessorLaravel\PaymentService;$paymentId = $request->query('paymentId');
-$payerId = $request->query('PayerID');
-
-$paymentData['channel'] = 'paypal';
-$paymentInstance = PaymentService::returnPaymentInstance($paymentData);
-$paymentInstance->executePayment($paymentId, $payerId);
 ```
 
 ## Events
+
+> **Package is tailored with async workflow in mind, you should work with these events and approve payments via dispatching `PaymentSuccess` event!**
+
 
 The package dispatches the following events during the payment process:
 
@@ -116,12 +110,9 @@ The package dispatches the following events during the payment process:
 - `PaymentFailed`: Dispatched if the payment process fails.
 
 You can listen to these events in your application's event listeners to perform actions like sending notifications or updating order statuses.
-
 ## License
 
 This package is open-sourced software licensed under the [MIT license](LICENSE).
 
 ---
-
-*Note: Replace placeholder values with your actual configuration details.*
 

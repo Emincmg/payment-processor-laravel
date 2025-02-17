@@ -16,7 +16,6 @@ class HandlePaymentError implements ShouldQueue
     public function handle(PaymentFailed $event)
     {
         $payment = $event->payment;
-
         Log::channel('payment_errors')->error('Payment failed', [
             'payment_id' => $payment->id ?? 'N/A',
             'amount' => $payment->amount ?? 'N/A',
