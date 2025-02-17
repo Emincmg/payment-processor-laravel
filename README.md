@@ -100,7 +100,7 @@ class PaymentController extends Controller
 
 ## Events
 
-> **Package is tailored with async workflow in mind, you should work with these events and approve payments via dispatching `PaymentSuccess` event!**
+- **Package is tailored with async workflow in mind, you should work with these events and approve payments via dispatching `PaymentSuccess` event!**
 
 
 The package dispatches the following events during the payment process:
