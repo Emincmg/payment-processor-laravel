@@ -17,7 +17,7 @@ class HandlePaymentError implements ShouldQueue
     {
         $payment = $event->payment;
 
-        Log::channel('payment_errors')->error('Stripe payment failed', [
+        Log::channel('payment_errors')->error('Payment failed', [
             'payment_id' => $payment->id ?? 'N/A',
             'amount' => $payment->amount ?? 'N/A',
             'currency' => $payment->currency ?? 'N/A',
