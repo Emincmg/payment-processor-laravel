@@ -108,6 +108,7 @@ The package dispatches the following events during the payment process:
 - `PaymentStarted`: Dispatched when a payment process starts.
 - `PaymentSuccess`: Dispatched upon successful payment completion.
 - `PaymentFailed`: Dispatched if the payment process fails.
+- `PaymentIntentCreated`: Dispatched when Stripe payment intent is created successfully.
 
 You can listen to these events in your application's event listeners to perform actions like sending notifications or updating order statuses.
 ## License
