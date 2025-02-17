@@ -1,11 +1,12 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel;
+
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Payment extends Model
 {
     protected $table = 'payments';
-
     public $timestamps = true;
 
     protected $fillable = [

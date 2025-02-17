@@ -1,15 +1,22 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel\Payments\Strategy;
+
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
-use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\DB;
 use Emincmg\PaymentProcessorLaravel\Exceptions\PaymentFailedException;
+use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
+use Emincmg\PaymentProcessorLaravel\Payment;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use PaymentIntentCreated;
+use PaymentStarted;
+use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
-use Stripe\Customer;
+use function Emincmg\PaymentProcessorLaravel\Payments\config;
+use function Emincmg\PaymentProcessorLaravel\Payments\now;
 
 /**
  * Class StripePayment

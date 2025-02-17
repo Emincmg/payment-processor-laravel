@@ -1,24 +1,24 @@
 <?php
 
-namespace Emincmg\PaymentProcessorLaravel\Models;
+namespace Emincmg\PaymentProcessorLaravel\Payments\Strategy;
 
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
-use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\DB;
 use Emincmg\PaymentProcessorLaravel\Exceptions\PaymentFailedException;
+use Emincmg\PaymentProcessorLaravel\Interfaces\PaymentInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use PayPal\Api\Amount;
+use PayPal\Api\Authorization;
+use PayPal\Api\Capture;
+use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
-use PayPal\Api\Payer;
-use PayPal\Api\Transaction;
-use PayPal\Api\Amount;
 use PayPal\Api\RedirectUrls;
-use PayPal\Api\Capture;
-use PayPal\Api\Authorization;
-use PayPal\Rest\ApiContext;
+use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 /**
  * Class PaypalPayment

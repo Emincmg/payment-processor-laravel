@@ -1,9 +1,11 @@
 <?php
 
-namespace  Emincmg\PaymentProcessorLaravel\Factory;
+namespace  Emincmg\PaymentProcessorLaravel\Payments\Factory;
 
-use  Emincmg\PaymentProcessorLaravel\Classes\StripePayment;
-use  Emincmg\PaymentProcessorLaravel\Classes\PaypalPayment;
+use Emincmg\PaymentProcessorLaravel\Classes\PaypalPayment;
+use Emincmg\PaymentProcessorLaravel\Classes\StripePayment;
+use Emincmg\PaymentProcessorLaravel\Factory\Exception;
+use Emincmg\PaymentProcessorLaravel\Factory\Payment;
 
 class PaymentFactory
 {
