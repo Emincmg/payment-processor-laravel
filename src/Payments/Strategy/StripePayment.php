@@ -15,8 +15,6 @@ use PaymentStarted;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
-use function Emincmg\PaymentProcessorLaravel\Payments\config;
-use function Emincmg\PaymentProcessorLaravel\Payments\now;
 
 /**
  * Class StripePayment

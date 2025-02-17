@@ -2,7 +2,7 @@
 
 namespace Emincmg\PaymentProcessorLaravel\Requests;
 
-class PaymentPostRequest
+class PaymentCreateRequest
 {
     /**
      * Determine if the user is authorized to make this request.
