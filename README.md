@@ -89,7 +89,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'status' => $responseDTO->status,
-            'payment' => $responseDTO->toArray()],200);
+            'payment' => $responseDTO->toJson()],200);
     }
 }
 
