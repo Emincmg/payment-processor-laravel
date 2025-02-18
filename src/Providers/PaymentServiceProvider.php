@@ -55,6 +55,20 @@ class PaymentServiceProvider extends ServiceProvider
             __DIR__ . '/../Listeners/HandlePaymentSuccess.php' => $this->app()->path() . '/Listeners/HandlePaymentSuccess.php',
         ], 'payment.listeners');
 
+        // publish events
+        $this->publishes([
+            __DIR__ . '/../Events/Stripe/PaymentIntentCreated.php' => $this->app()->path() . '/Events/PaymentIntentCreated.php',
+        ], 'payment.events');
+        $this->publishes([
+            __DIR__ . '/../Events/PaymentStarted.php' => $this->app()->path() . '/Events/PaymentStarted.php',
+        ], 'payment.events');
+        $this->publishes([
+            __DIR__ . '/../Events/PaymentFailed.php' => $this->app()->path() . '/Events/PaymentFailed.php',
+        ], 'payment.events');
+        $this->publishes([
+            __DIR__ . '/../Events/PaymentSuccess.php' => $this->app()->path() . '/Events/PaymentSuccess.php',
+        ], 'payment.events');
+
         // publish DTO's
         $this->publishes([
             __DIR__ . '/../Payments/DTO/PaymentRequestDTO.php' => $this->app()->path() . '/DTO/PaymentRequestDTO.php',
