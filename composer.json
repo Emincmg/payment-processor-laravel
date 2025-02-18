@@ -1,6 +1,6 @@
 {
   "name": "emincmg/payment-processor-laravel",
-  "description": "A payment processor package that helps with common payment systems such as Stripe, VPOS etc.",
+  "description": "A payment processor package that helps with common payment systems such as Stripe, PayPal etc.",
   "type": "library",
   "license": "MIT",
   "autoload": {
@@ -31,12 +31,15 @@
     "php": "^8.2",
     "laravel/framework": "^11.0",
     "stripe/stripe-php": "^14.8",
-    "paypal/rest-api-sdk-php": "^1.14"
+    "paypal/paypal-server-sdk": "^0.6.1"
   },
   "keywords": [
     "laravel",
     "payment",
     "stripe",
     "paypal"
-  ]
+  ],
+  "require-dev": {
+    "orchestra/testbench": "^9.10"
+  }
 }

@@ -3,7 +3,6 @@
 namespace Emincmg\PaymentProcessorLaravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Foundation\Application;
 use Emincmg\PaymentProcessorLaravel\PaymentService;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
 use Emincmg\PaymentProcessorLaravel\Listeners\HandlePaymentSuccess;

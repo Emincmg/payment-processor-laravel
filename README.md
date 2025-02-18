@@ -22,7 +22,7 @@ composer require emincmg/payment-processor-laravel
 After installation, publish the configuration file:
 
 ```bash
-php artisan vendor:publish --tag=payment-config
+php artisan vendor:publish --provider="Emincmg\PaymentProcessorLaravel\Providers\PaymentServiceProvider"
 ```
 
 This command will publish the `payment.php` configuration file to your application's `config` directory.
