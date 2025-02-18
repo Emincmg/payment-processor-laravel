@@ -89,10 +89,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'status' => $responseDTO->status,
-            'transaction_id' => $responseDTO->transactionId,
-            'approval_url' => $responseDTO->approvalUrl,
-            'message' => $responseDTO->message
-        ]);
+            'payment' => $responseDTO->toArray()],200);
     }
 }
 
