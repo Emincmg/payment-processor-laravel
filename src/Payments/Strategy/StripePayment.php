@@ -125,7 +125,7 @@ class StripePayment extends Payment implements PaymentInterface
         try {
             DB::transaction(function () {
                 $this->confirmed_at = now();
-                $this->status = 'confirmed';
+                $this->status = 'paid';
                 $this->save();
             });
             Log::channel('payment_success')->info('Stripe payment success!');

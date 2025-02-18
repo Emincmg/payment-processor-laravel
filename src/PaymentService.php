@@ -4,14 +4,11 @@ namespace Emincmg\PaymentProcessorLaravel;
 
 use App\Models\User;
 use DB;
+use Emincmg\PaymentProcessorLaravel\Payments\DTO\PaymentRequestDTO;
+use Emincmg\PaymentProcessorLaravel\Payments\Factory\PaymentFactory;
 use Emincmg\PaymentProcessorLaravel\Payment;
 use Emincmg\PaymentProcessorLaravel\Payments\Strategy\PaypalPayment;
 use Emincmg\PaymentProcessorLaravel\Payments\Strategy\StripePayment;
-use Emincmg\PaymentProcessorLaravel\Payments\DTO\PaymentRequestDTO;
-use Emincmg\PaymentProcessorLaravel\Payments\Factory\PaymentFactory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class PaymentService
 {
@@ -33,7 +30,7 @@ class PaymentService
      *
      * @param PaymentRequestDTO $paymentDTO The raw payment data from the request.
      * @return Payment
-     * @throws Exception
+     * @throws \Exception
      */
     public function returnPaymentInstance(PaymentRequestDTO $paymentDTO): Payment
     {

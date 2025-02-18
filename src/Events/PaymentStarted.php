@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Emincmg\Payments\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -9,7 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Emincmg\PaymentProcessorLaravel\Classes\Payment;
+use Emincmg\PaymentProcessorLaravel\Payment;
 class PaymentStarted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

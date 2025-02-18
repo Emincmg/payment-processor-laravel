@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Emincmg\PaymentProcessorLaravel\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,7 +15,7 @@ class PaymentSuccess
     /**
      * Create a new event instance.
      */
-    public function __construct(private Payment $payment)
+    public function __construct(public Payment $payment)
     {
     }
 

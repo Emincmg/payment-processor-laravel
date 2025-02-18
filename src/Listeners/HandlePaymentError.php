@@ -1,5 +1,7 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel\Listeners;
+
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Services\PaymentService;
 use Illuminate\Contracts\Queue\ShouldQueue;

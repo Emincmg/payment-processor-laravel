@@ -2,6 +2,7 @@
 
 namespace Emincmg\PaymentProcessorLaravel\Payments\Strategy;
 
+use Emincmg\PaymentProcessorLaravel\Payment;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentFailed;
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
 use Emincmg\PaymentProcessorLaravel\Exceptions\PaymentFailedException;
@@ -13,7 +14,7 @@ use PayPal\Api\Amount;
 use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
 use PayPal\Api\Payer;
-use PayPal\Api\Payment;
+use PayPal\Api\Payment as PaymentApi;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
@@ -72,7 +73,7 @@ class PaypalPayment extends Payment implements PaymentInterface
             $redirectUrls->setReturnUrl(config('payment.paypal.return_url'))
                 ->setCancelUrl(config('payment.paypal.cancel_url'));
 
-            $payment = new Payment();
+            $payment = new PaymentApi();
             $payment->setIntent("sale")
                 ->setPayer($payer)
                 ->setTransactions([$transaction])

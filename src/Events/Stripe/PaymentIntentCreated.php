@@ -1,5 +1,6 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel\Events\Stripe;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

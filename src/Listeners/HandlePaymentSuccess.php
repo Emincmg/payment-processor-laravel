@@ -1,5 +1,7 @@
 <?php
 
+namespace Emincmg\PaymentProcessorLaravel\Listeners;
+
 use Emincmg\PaymentProcessorLaravel\Events\PaymentSuccess;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
