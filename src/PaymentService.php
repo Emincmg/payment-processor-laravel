@@ -4,9 +4,9 @@ namespace Emincmg\PaymentProcessorLaravel;
 
 use App\Models\User;
 use DB;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\Payment;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\PaypalPayment;
-use Emincmg\PaymentProcessorLaravel\Classes\Payments\StripePayment;
+use Emincmg\PaymentProcessorLaravel\Payment;
+use Emincmg\PaymentProcessorLaravel\Payments\Strategy\PaypalPayment;
+use Emincmg\PaymentProcessorLaravel\Payments\Strategy\StripePayment;
 use Emincmg\PaymentProcessorLaravel\Payments\DTO\PaymentRequestDTO;
 use Emincmg\PaymentProcessorLaravel\Payments\Factory\PaymentFactory;
 use Illuminate\Http\JsonResponse;
