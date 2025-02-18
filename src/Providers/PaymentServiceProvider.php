@@ -31,6 +31,14 @@ class PaymentServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // publish migrations
+        $now = now();
+        $this->publishes([
+            __DIR__ . '/../../migrations/create_payments_table.php' =>
+                $this->app->databasePath('migrations' .
+                    DIRECTORY_SEPARATOR . $now->format('Y_m_d_His') . '_create_payments_table.php'),
+        ], 'migrations');
+
         // publish config
         $this->publishes([
             __DIR__ . '/../../config/payment.php' => config_path('payment.php'),
@@ -73,12 +81,5 @@ class PaymentServiceProvider extends ServiceProvider
             __DIR__ . '/../Exceptions/PaymentFailedException.php' => $this->app()->path() . '/Exceptions/PaymentFailedException.php',
         ], 'payment.exceptions');
 
-
-        $now = now();
-        $this->publishes([
-            __DIR__ . '/../../migrations/create_payments_table.php' =>
-                $this->app->databasePath('migrations' .
-                    DIRECTORY_SEPARATOR . $now->format('Y_m_d_His') . '_create_payments_table.php'),
-        ], 'migrations');
     }
 }
